@@ -1,0 +1,225 @@
+Thank you for the exceptionally clear and disciplined summary. I have fully loaded this context and verified internal consistency across goals, systems, architectural choices, evaluation modes, and deployment constraints. Nothing material is missing, and there are no contradictions that would impede execution or publication positioning.
+
+We are ready to proceed.
+
+---
+
+## Transition to Execution Phase
+
+Given your instruction, we now begin **Step 1**.
+
+Before implementing anything, I will **define a concrete, minimal, and publication-aligned project structure** that:
+
+* Is **Windows-friendly** for local editing
+* Cleanly separates **data, models, training, evaluation, and figures**
+* Scales cleanly to **GCP (Linux, T4)**
+* Maps directly to **Methods / Supplementary sections** of a *Nature Machine Intelligence* paper
+* Avoids premature overengineering
+
+No assumptions beyond what you have already locked will be introduced.
+
+---
+
+## **STEP 1 — Canonical Project / Folder Structure**
+
+### **Top-Level Repository**
+
+```
+cryptic-md-surrogate/
+│
+├── README.md
+├── environment-gpu.yml
+├── .gitignore
+│
+├── data/
+├── src/
+├── experiments/
+├── results/
+├── figures/
+└── paper/
+```
+
+This structure mirrors the **conceptual flow of the paper** and allows strict separation between raw data, code, and scientific outputs.
+
+---
+
+### **1. `data/` — All Inputs (Read-Only Once Prepared)**
+
+```
+data/
+│
+├── raw/
+│   ├── anton/
+│   │   └── a2a/
+│   │       ├── trajectories/
+│   │       └── metadata/
+│   │
+│   └── pdb/
+│       ├── ptp1b/
+│       └── a2a/
+│
+├── processed/
+│   ├── ptp1b/
+│   │   ├── structures/
+│   │   ├── pockets/
+│   │   └── fragments/
+│   │
+│   └── a2a/
+│       ├── order_parameters/
+│       └── trajectory_features/
+│
+└── splits/
+    ├── ptp1b/
+    └── a2a/
+```
+
+**Design rationale**
+
+* `raw/` is never modified after download
+* `processed/` contains computed features (χ angles, TM6 distances, etc.)
+* `splits/` ensures strict train/val/test discipline for ML claims
+
+---
+
+### **2. `src/` — All Scientific Code**
+
+```
+src/
+│
+├── common/
+│   ├── geometry.py
+│   ├── md_utils.py
+│   └── visualization.py
+│
+├── data/
+│   ├── anton_loader.py
+│   ├── pdb_loader.py
+│   └── preprocessing.py
+│
+├── scmf/
+│   ├── model.py
+│   ├── loss.py
+│   └── train.py
+│
+├── diffusion/
+│   ├── model.py
+│   ├── conditioning.py
+│   └── train.py
+│
+├── evaluation/
+│   ├── ptp1b_metrics.py
+│   ├── gpcr_metrics.py
+│   └── distributional.py
+│
+└── pipeline/
+    └── run_full_pipeline.py
+```
+
+**Design rationale**
+
+* SCMF and diffusion are **architecturally decoupled** (important for ablations)
+* Evaluation code is isolated and publication-driven
+* `pipeline/` enables end-to-end execution without notebooks
+
+---
+
+### **3. `experiments/` — Reproducible Runs**
+
+```
+experiments/
+│
+├── ptp1b/
+│   ├── scmf_only.yaml
+│   └── full_model.yaml
+│
+└── a2a/
+    ├── activation_regression.yaml
+    └── ablations.yaml
+```
+
+Each YAML fully specifies:
+
+* model hyperparameters
+* data sources
+* random seeds
+* output locations
+
+This is critical for **reviewer-proof reproducibility**.
+
+---
+
+### **4. `results/` — Machine-Readable Outputs**
+
+```
+results/
+│
+├── ptp1b/
+│   ├── predictions/
+│   └── metrics.json
+│
+└── a2a/
+    ├── activation_predictions.csv
+    └── metrics.json
+```
+
+Nothing here is hand-edited. Everything is generated.
+
+---
+
+### **5. `figures/` — Paper-Ready Outputs**
+
+```
+figures/
+│
+├── ptp1b/
+│   ├── pocket_overlap.png
+│   └── fragment_rmsd.png
+│
+└── a2a/
+    ├── activation_correlation.png
+    ├── activation_trajectory_overlay.png
+    └── distribution_comparison.png
+```
+
+Only vector or high-resolution raster outputs suitable for NMI.
+
+---
+
+### **6. `paper/` — Writing and Submission**
+
+```
+paper/
+│
+├── outline.md
+├── methods.md
+├── results.md
+├── figures/
+└── supplementary/
+```
+
+This allows **parallel code + writing**, which significantly accelerates submission.
+
+---
+
+## No Additional Information Required
+
+At this point, I do **not** need further clarification. All architectural, scientific, and evaluation decisions are sufficiently specified to proceed deterministically.
+
+---
+
+## Next Action (If You Agree)
+
+If this structure is acceptable, we will proceed immediately to:
+
+### **STEP 2 — Data Acquisition Plan**
+
+* Exact published Anton A2A trajectory sources
+* Exact PTP1B structures and fragment sets
+* File naming conventions
+* Provenance notes suitable for *Methods*
+
+Simply confirm:
+
+> “Proceed to Step 2.”
+
+We will continue one step at a time, as agreed.
